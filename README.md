@@ -107,7 +107,7 @@ Talk to the bot in natural language:
 - Python 3.10+
 - Telegram Bot Token
 - NVIDIA API Key (for LLaMA 3.1 8B)
-- An OWL/RDF movie ontology file
+
 
 ---
 
