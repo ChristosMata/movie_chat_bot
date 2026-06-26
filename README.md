@@ -25,7 +25,7 @@ Users can search for movies by genre, actor, director, theme, or keyword — all
 ├── owl_handler.py        # SPARQL queries on the OWL ontology
 ├── llm_handler.py        # LLM calls for recommendations and descriptions
 ├── response_builder.py   # Intent detection and response formatting
-├── movie_ontology.rdf    # OWL ontology file (not included in repo)
+├── movie_ontology.rdf    # OWL ontology file 
 ├── .env                  # Secrets (not included in repo)
 ├── requirements.txt
 └── README.md
