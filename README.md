@@ -1,32 +1,32 @@
-# 🎬 Movie Bot
+# 🎬 Movie Chat Bot
 
-A Telegram chatbot that recommends movies using an OWL ontology and a language model (LLaMA via NVIDIA API).
-
-Users can search for movies by genre, actor, director, theme, or keyword — all in natural language.
+A Telegram chatbot that recommends movies using an OWL ontology and a language model (LLaMA 3.1 via NVIDIA API). Users can search for movies in natural language by genre, actor, director, theme, or keyword.
 
 ---
 
 ## Features
 
-- Natural language intent detection (LLM-powered)
-- Search by genre, actor, director, theme, or keyword
+- Natural language intent detection powered by LLaMA 3.1 8B
+- Search movies by genre, actor, director, theme, or keyword
 - Detailed movie info on request
 - Top-rated movie recommendations
-- Broadcast notifications on bot startup/shutdown
-- Fallback keyword-based intent detection if LLM is unavailable
+- Broadcast notifications to all users on startup/shutdown
+- Keyword-based fallback intent detection if LLM is unavailable
 
 ---
 
 ## Project Structure
 
 ```
-.
-├── bot.py                # Main Telegram bot logic
-├── owl_handler.py        # SPARQL queries on the OWL ontology
+movie_chat_bot/
+├── bot.py                # Main Telegram bot — handlers and routing
+├── owl_handler.py        # SPARQL queries on the OWL/RDF ontology
 ├── llm_handler.py        # LLM calls for recommendations and descriptions
 ├── response_builder.py   # Intent detection and response formatting
-├── movie_ontology.rdf    # OWL ontology file 
-├── .env                  # Secrets (not included in repo)
+├── movie_ontology.rdf    # OWL ontology with movie data
+├── .env                  # Secrets — NOT committed to Git
+├── .env.example          # Template for environment variables
+├── .gitignore
 ├── requirements.txt
 └── README.md
 ```
@@ -38,8 +38,8 @@ Users can search for movies by genre, actor, director, theme, or keyword — all
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/movie-bot.git
-cd movie-bot
+git clone https://github.com/ChristosMata/movie_chat_bot.git
+cd movie_chat_bot
 ```
 
 ### 2. Install dependencies
@@ -50,7 +50,13 @@ pip install -r requirements.txt
 
 ### 3. Configure environment variables
 
-Create a `.env` file in the root directory:
+Copy the example file and fill in your values:
+
+```bash
+cp .env.example .env
+```
+
+Edit `.env`:
 
 ```
 TELEGRAM_TOKEN=your_telegram_bot_token
@@ -59,16 +65,12 @@ OWL_FILE=movie_ontology.rdf
 USERS_FILE=users.json
 ```
 
-- `TELEGRAM_TOKEN`: Get from [@BotFather](https://t.me/BotFather) on Telegram
-- `OPENAI_KEY`: NVIDIA API key from [integrate.api.nvidia.com](https://integrate.api.nvidia.com)
-- `OWL_FILE`: Path to your OWL/RDF ontology file
-- `USERS_FILE`: JSON file to persist user chat IDs (auto-created)
+- `TELEGRAM_TOKEN` — Get from [@BotFather](https://t.me/BotFather) on Telegram
+- `OPENAI_KEY` — NVIDIA API key from [integrate.api.nvidia.com](https://integrate.api.nvidia.com)
+- `OWL_FILE` — Path to the OWL/RDF ontology file (default: `movie_ontology.rdf`)
+- `USERS_FILE` — JSON file to persist user chat IDs (auto-created on first run)
 
-### 4. Add your ontology file
-
-Place your `movie_ontology.rdf` file in the project root (not tracked by Git).
-
-### 5. Run the bot
+### 4. Run the bot
 
 ```bash
 python bot.py
@@ -89,7 +91,7 @@ Talk to the bot in natural language:
 | `something with pirates` | Searches by keyword |
 | `tell me about Inception` | Shows movie details |
 
-### Commands
+### Bot Commands
 
 | Command | Description |
 |---|---|
@@ -97,26 +99,35 @@ Talk to the bot in natural language:
 | `/top` | Top rated movies |
 | `/themes` | List all available themes |
 | `/help` | Usage instructions |
-| `/online` | (Admin) Set bot online |
-| `/offline` | (Admin) Set bot offline |
+| `/online` | *(Admin)* Set bot online |
+| `/offline` | *(Admin)* Set bot offline |
+
+---
+
+## Available Genres
+
+Action, Adventure, Animation, Comedy, Crime, Drama, Family, Fantasy, Horror, Music, Romance, Sci-Fi, Thriller, War
+
+## Available Themes
+
+Ambition, Chaos and Order, Class Inequality, Coming of Age, Corruption, Deception, Dreams and Subconscious, Dystopia, Family, Fantasy vs Reality, Friendship, Good vs Evil, Greed, Heroism, Identity, Justice, Love, Memory, Obsession, Paranoia, Power, Racism, Revenge, Survival, Time Travel, War and more.
 
 ---
 
 ## Requirements
 
 - Python 3.10+
-- Telegram Bot Token
-- NVIDIA API Key (for LLaMA 3.1 8B)
-
+- Telegram Bot Token (via [@BotFather](https://t.me/BotFather))
+- NVIDIA API Key (for LLaMA 3.1 8B via [integrate.api.nvidia.com](https://integrate.api.nvidia.com))
 
 ---
 
-## .gitignore
+## Tech Stack
 
-Make sure your `.gitignore` includes:
-
-```
-.env
-users.json
-*.rdf
-```
+| Component | Technology |
+|---|---|
+| Bot framework | python-telegram-bot 21.3 |
+| LLM | LLaMA 3.1 8B (NVIDIA API) |
+| Ontology | OWL/RDF via rdflib |
+| Query language | SPARQL |
+| Config | python-dotenv |
